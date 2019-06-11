@@ -1,8 +1,10 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_http_methods, require_GET
 from .models import Board
 
 
 # Create your views here
+@require_GET
 def index(request):
     # Board 의 전체 데이터를 불러온다 - QuerySet
     boards = Board.objects.all()
@@ -11,6 +13,7 @@ def index(request):
 
 
 # 사용자 입력을 받는 페이지 렌더링
+@require_http_methods(['GET', 'POST'])
 def new(request):
     # GET
     if request.method == 'GET':
@@ -38,13 +41,21 @@ def detail(request, id):
     # Board 클래스를 사용해서 id 값에 맞는 데이터를 가지고 온다.
     # context 로 넘겨서 detail.html 페이지에서 title 과 content 를
     # 출력해본다.
-    board = Board.objects.get(id=id)
+    # board = Board.objects.get(id=id)
+    board = get_object_or_404(Board, id=id)
     context = {'board': board}
     return render(request, 'boards/detail.html', context)
 
 
+@require_http_methods(['POST'])
 def delete(request, id):
-    board = Board.objects.get(id=id)
+    # if request.method == 'GET':
+    #     # GET 요청으로 들어오면 detail page 로 다시 redirect
+    #     return redirect('boards:detail', id)
+    # else:
+    #     # POST 요청으로 들어오면 정상 삭제
+    # board = Board.objects.get(id=id)
+    board = get_object_or_404(Board, id=id)
     board.delete()
     return redirect('boards:index')
 
@@ -52,7 +63,8 @@ def delete(request, id):
 # 게시글 수정 페이지 렌더링
 def edit(request, id):
     # 1. 사용자의 요청이 GET 인지 POST 인지 확인한다.
-    board = Board.objects.get(id=id)  # Dont Repeat Yourself
+    # board = Board.objects.get(id=id)  # Dont Repeat Yourself
+    board = get_object_or_404(Board, id=id)
     if request.method == 'GET':
         # 2. GET 요청이면 사용자에게 수정할 페이지를 보여준다.
         context = {'board': board}
