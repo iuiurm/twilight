@@ -11,3 +11,10 @@ class Board(models.Model):
     def __str__(self):
         # 1. 첫번째 포스트
         return f'{self.id}. {self.title}'
+
+
+class Comment(models.Model):
+    content = models.TextField()  # 댓글의 내용
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    board = models.ForeignKey(Board, on_delete=models.CASCADE)
