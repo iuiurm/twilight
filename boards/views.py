@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.decorators.http import require_http_methods, require_GET
+from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from .models import Board, Comment
 
 
@@ -34,7 +34,8 @@ def detail(request, board_id):
     # 출력해본다.
     # board = Board.objects.get(id=id)
     board = get_object_or_404(Board, id=board_id)
-    context = {'board': board}
+    comments = board.comment_set.order_by('-id').all()
+    context = {'board': board, 'comments': comments}
     return render(request, 'boards/detail.html', context)
 
 
@@ -80,4 +81,12 @@ def comment_create(request, board_id):
     comment.content = content
     comment.save()
 
+    return redirect('boards:detail', board_id)
+
+
+@require_POST
+def comment_delete(request, board_id, comment_id):
+    # 댓글 삭제로직
+    comment = Comment.objects.get(pk=comment_id)
+    comment.delete()
     return redirect('boards:detail', board_id)

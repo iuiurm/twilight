@@ -8,6 +8,28 @@
     <hr />
     <p>{{ board.content }}</p>
     <hr />
+
+    <form action="{% url 'boards:comment_create' board.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="content" placeholder="댓글을 입력해주세요..." />
+        <input type="submit" value="Submit" />
+    </form>
+    <hr />
+
+    <p>
+        <b>댓글목록</b>
+    </p>
+    {% for comment in comments %}
+        <li>{{ comment.content }}</li>
+        <form action="{% url 'boards:comment_delete' board.id comment.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="삭제" />
+        </form>
+    {% empty %}
+        <p>아직 댓글이 없습니다 :(</p>
+    {% endfor %}
+    <hr />
+
     <a href="{% url 'boards:index' %}">BACK</a>
     <form action="{% url 'boards:delete' board.id %}" method="post">
         {% csrf_token %}
