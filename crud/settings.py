@@ -34,6 +34,9 @@ INSTALLED_APPS = [
     # Local Apps
     'boards',
 
+    # 3rd party Apps
+    'django_extensions',
+
     # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
