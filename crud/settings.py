@@ -36,6 +36,7 @@ INSTALLED_APPS = [
 
     # 3rd party Apps
     'django_extensions',
+    'imagekit',
 
     # Django Apps
     'django.contrib.admin',
@@ -125,3 +126,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# domain.com/media/sample.jpg
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

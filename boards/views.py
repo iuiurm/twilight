@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.decorators.http import require_http_methods, require_GET, require_POST
 from .models import Board, Comment
+from IPython import embed
 
 
 # Create your views here
@@ -22,8 +23,15 @@ def new(request):
     else:
         title = request.POST.get('title')
         content = request.POST.get('content')
-        board = Board(title=title, content=content)
+        image = request.FILES.get('image')
+        board = Board(
+            title=title,
+            content=content,
+            image=image,
+        )
         board.save()
+        embed()
+
         return redirect('boards:detail', board.id)
 
 
@@ -66,9 +74,11 @@ def edit(request, board_id):
         # detail page 로 redirect 한다.
         title = request.POST.get('title')
         content = request.POST.get('content')
+        image = request.FILES.get('image')
         # 수정로직
         board.title = title
         board.content = content
+        board.image = image
         board.save()
         return redirect('boards:detail', board_id)
 

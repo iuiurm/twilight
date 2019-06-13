@@ -2,6 +2,9 @@
 
 {% block body %}
     <h1>Detail</h1>
+    {% if board.image %}
+    <img src="{{ board.image.url }}" alt="{{ board.image.name }}">
+    {% endif %}
     <h2>{{ board.title }}</h2>
     <p>{{ board.id }}번째 글</p>
     <p>{{ board.created_at }}</p>
