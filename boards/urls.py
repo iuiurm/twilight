@@ -1,16 +1,12 @@
 from django.urls import path
 from . import views
+from django.conf.urls import url
 
 app_name = 'boards'
 
+# sentwitch.com/boards/info
 urlpatterns = [
-    path('', views.index, name='index'),
-    path('new/', views.new, name='new'),
-    path('<int:board_id>/', views.detail, name='detail'),
-    path('<int:board_id>/delete/', views.delete, name='delete'),
-    path('<int:board_id>/edit/', views.edit, name='edit'),
-
-    # Comments
-    path('<int:board_id>/comments/', views.comment_create, name='comment_create'),
-    path('<int:board_id>/comments/<int:comment_id>/delete/', views.comment_delete, name='comment_delete'),
+    #path('detail/<str:name>/', views.streamer, name='detail'),
+    #path('streamer/', views.streamer, name='streamer'),
+    #path('info/<int:numbers>/', views.info, name='info'),
 ]

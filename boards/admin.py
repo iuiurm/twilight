@@ -1,6 +1,14 @@
 from django.contrib import admin
-from .models import Board, Comment
+from .models import Streamer, Video
 
-# Register your models here.
-admin.site.register(Board)
-admin.site.register(Comment)
+
+@admin.register(Streamer)
+class StreamerAdmin(admin.ModelAdmin):
+    list_display = ('login', 'name', 'profile_image_url', )
+    #readonly_fields = ['profile_image_url']
+
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'duration' )
+    #readonly_fields = ['streamer_id', 'url', 'thumb_nail_url' ]

@@ -300,3 +300,12 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.gitignore.io/api/django,python,windows,pycharm
+
+#Text backup files
+*.bak
+
+# Database
+*.sqlite3
+
+# Environment
+.env

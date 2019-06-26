@@ -1,32 +1,38 @@
 from django.db import models
-from imagekit.models import ProcessedImageField
-from imagekit.processors import Thumbnail
 
 
 # Create your models here.
-class Board(models.Model):
-    title = models.CharField(max_length=20)
-    content = models.TextField()
-    # image = models.ImageField(blank=True)  # 해당 필드에 아무것도 안들어가도 된다.
-    image = ProcessedImageField(
-        upload_to='boards/images',  # 저장위치 (media 이후의 경로)
-        processors=[Thumbnail(200, 300)],
-        format='JPEG',
-        options={'quality': 90},
-    )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+class Streamer(models.Model):
+    sid = models.IntegerField()
+    login = models.CharField(max_length=30)
+    name = models.CharField(max_length=30)
+    profile_image_url = models.CharField(max_length=300)
 
     def __str__(self):
-        # 1. 첫번째 포스트
-        return f'{self.id}. {self.title}'
+        return f'{self.sid}'
 
 
-class Comment(models.Model):
-    content = models.TextField()  # 댓글의 내용
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    board = models.ForeignKey(Board, on_delete=models.CASCADE)
+class Video(models.Model):
+    vid = models.IntegerField()
+    title = models.CharField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=False)
+    duration = models.CharField(max_length=30)
+    url = models.CharField(max_length=40)
+    thumb_nail_url = models.CharField(max_length=300)
+    streamer_id = models.ForeignKey(Streamer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'<Board({self.board_id}): Comment({self.id} - {self.content})>'
+        #return f'{self.title}.{self.created_at}.{self.duration}.{self.url}.{self.thumb_nail_url}.{self.streamer_id}'
+        return f'{self.title}{self.streamer_id}'
+
+
+class Data(models.Model):
+    data_time = models.IntegerField()
+    video_id = models.ForeignKey(Video, on_delete=models.CASCADE)
+    streamer_id = models.ForeignKey(Streamer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        # return f'{self.title}.{self.created_at}.{self.duration}.{self.url}.{self.thumb_nail_url}.{self.streamer_id}'
+        return f'{self.data_time}{self.video_id}{self.streamer_id}'
+
+

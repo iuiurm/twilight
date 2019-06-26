@@ -14,19 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-
-from django.conf import settings
-from django.conf.urls.static import static
+from django.urls import path
+from boards import views
 
 urlpatterns = [
-    # domain.com/boards/
-    path('boards/', include('boards.urls')),  # boards > urls.py
+    path('', views.index, name='index'),
     path('admin/', admin.site.urls),
+    path('streamer/', views.streamer, name='streamer'),
+    path('streamer/<int:streamer_sid>/video/', views.video, name='video'),
+    path('streamer/<int:streamer_sid>/video/<int:video_vid>/chat/', views.chat,  name='chat')
+    # path 를 타고 나가면 views.chat의 내요을 뿌리겠다 ?
 ]
-
-# domain.com/media/sample.jpg
-urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
