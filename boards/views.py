@@ -8,7 +8,7 @@ def index(request):
     context = {
         'latest_question_list': "test",
     }
-    return render(request, 'home.html', context)
+    return render(request, 'home2.html', context)
 
 @require_GET
 def streamer(request):
